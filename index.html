@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A rigid-body physics simulation of the 'Who dies if E pushes the stone?' puzzle." />
+    <title>Who Dies?</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23c9b48c' stroke='%233a2e22' stroke-width='2.5'/%3E%3Ctext x='16' y='21.5' font-family='Georgia,serif' font-size='15' font-weight='700' text-anchor='middle' fill='%233a2e22'%3EE%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="masthead">
+        <p class="eyebrow">Only for geniuses</p>
+        <h1>Who dies if <span class="e">E</span> pushes the stone?</h1>
+        <p class="lede">
+          The puzzle, rebuilt as a rigid-body physics simulation. Press <strong>Run</strong> and let
+          Box2D settle the argument, then change the settings and see whether the answer holds.
+        </p>
+      </header>
+
+      <section class="stage">
+        <canvas id="scene" aria-label="Side view of the puzzle: the boulder at the top of the ramp, the seesaw, the spikes, and people A, B, D and E"></canvas>
+        <div class="toolbar">
+          <button id="run" class="btn primary" type="button">Run</button>
+          <button id="reset" class="btn" type="button">Reset</button>
+          <label class="speed">
+            <span>Playback</span>
+            <input id="speed" type="range" min="0.1" max="2" step="0.05" value="1" />
+            <output id="speed-out">1×</output>
+          </label>
+          <label class="check">
+            <input id="trails" type="checkbox" checked />
+            <span>Show paths</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="panels">
+        <div class="panel verdict-panel">
+          <h2>The verdict</h2>
+          <p id="verdict" class="verdict">Press Run and E gives the boulder a shove.</p>
+          <ul id="roster" class="roster"></ul>
+        </div>
+
+        <div class="panel settings">
+          <div class="panel-head">
+            <h2>Physics</h2>
+            <button id="defaults" class="link" type="button">Restore defaults</button>
+          </div>
+          <div id="sliders"></div>
+          <label class="check duck">
+            <input id="duck" type="checkbox" />
+            <span>D ducks all the way into the hole</span>
+          </label>
+          <p class="hint">Changing a setting resets the scene. The URL keeps your settings, so you can share a scenario.</p>
+        </div>
+      </section>
+
+      <footer class="notes">
+        <h2>How it's modelled</h2>
+        <ul>
+          <li>
+            The geometry is traced from the puzzle drawing at 55 px = 1 m. People are the size they are
+            drawn (A 2.1 m, B 1.8 m, D 1.36 m, so the top of D's head pokes 13 cm out of the hole) and
+            weigh 70 kg. Both stones are 1.6 m across.
+          </li>
+          <li>
+            E's boulder defaults to ten times the mass of the seesaw stone. A seesaw passes on only part
+            of the boulder's energy, so with similar masses the stone never clears the pillar.
+          </li>
+          <li>
+            E pushes the boulder horizontally with the chosen force until it rolls out of arm's reach (0.6 m).
+          </li>
+          <li>
+            Someone dies if a stone changes their velocity by more than 3 m/s within 1/60 s (a hard hit, or
+            being crushed), if anything else does so by more than 10 m/s (a bad fall), or if they touch a spike.
+          </li>
+          <li>
+            Everything is a rigid body, people included, so D's head is a solid bump in the boulder's path.
+            The seesaw is a plank on a pin joint; its teeth and the floor spikes are solid. Physics runs at
+            a fixed 240 Hz, so the same settings always give the same result.
+          </li>
+          <li>Built with <a href="https://piqnt.com/planck.js/">Planck.js</a>, a JavaScript port of Box2D.</li>
+        </ul>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,14 +1,21 @@
 {
   "name": "roll-down-hill",
   "version": "0.0.1",
-  "description": "",
+  "description": "Rigid-body simulation of the 'who dies if E pushes the stone?' puzzle",
   "private": true,
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
   "author": "romellem",
   "license": "UNLICENSED",
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "planck": "^1.5.1"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  }
 }
